@@ -9,8 +9,6 @@ implements interfaces.Ecke{
 	private final Feld feld;
 	private final int id;
 	private Knoten knoten = null;
-	private Kante kante;
-
 	
 	private static int idZaehler = 0;
 	
@@ -38,15 +36,14 @@ implements interfaces.Ecke{
 		this.knoten = knoten;
 	}
 	
-	public void setKante(Kante kante) {
-		this.kante = kante;
-	}
 	
 	@Override
 	public Set<Ecke> getNachbarEcken() {
+		Feld feld = this.getFeld();
+		
 		Set<Ecke> nachbarn = new HashSet<Ecke>();
-		//System.out.println(this.getId() + " id der ecke zu suchen ");
-	    Iterator<Kante> iterator = Kante.kantenSet.iterator();
+
+		Iterator<Kante> iterator = feld.getKanten().iterator();
 	    while(iterator.hasNext()) {
 	    	Kante k = iterator.next();
 	    //	System.out.println(k.getId() + " kanten id");

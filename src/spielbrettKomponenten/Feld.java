@@ -11,6 +11,8 @@ implements interfaces.Feld{
 	private final int wuerfelZahl;
 	private final int id;
 	private Vector<Ecke> ecken = new Vector<Ecke>();
+	private Vector<Kante> kanten = new Vector<Kante>();
+
 	private boolean istPlaziert = false;
 
 	
@@ -23,21 +25,19 @@ implements interfaces.Feld{
 		this.id = idZaehler;
 		idZaehler++;		
 		
+		//Create corners for field
 		for(int x =0; x < Konstanten.ECKEN_PRO_FELD; x++){
 			Ecke ecke = new Ecke(this);
     		this.ecken.addElement(ecke);
       	}	
 		
+		//create edge-relation between corners for field
 		int i = 0;
     	Kante kante = new Kante(this.ecken.firstElement(),this.ecken.lastElement());
-    	this.ecken.firstElement().setKante(kante);
-    	this.ecken.lastElement().setKante(kante);
-
-    	
+    	kanten.addElement(kante);
     	while(i < Konstanten.ECKEN_PRO_FELD - 1){
-    		new Kante(this.ecken.elementAt(i),this.ecken.elementAt(i+1)); 
-    		this.ecken.elementAt(i).setKante(kante);
-        	this.ecken.elementAt(i+1).setKante(kante);
+    		Kante k = new Kante(this.ecken.elementAt(i),this.ecken.elementAt(i+1)); 
+        	kanten.add(k);
     		i++;
     	}
 	}
@@ -70,6 +70,10 @@ implements interfaces.Feld{
 			}
 		}
 		return null;
+	}
+
+	public Vector<Kante> getKanten() {
+		return kanten;
 	}
 
 }

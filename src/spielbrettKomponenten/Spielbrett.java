@@ -40,11 +40,10 @@ implements interfaces.Spielbrett{
 		 * get 4th field link it with 2 or 3 existing nodes (therefore fields) and create 4 or 3 new nodes
 		 */
 		Feld ersteFeld = felder.firstElement();	
-
-    	for(int k = 0; k < Konstanten.ECKEN_PRO_FELD; k++) {
-    		Knoten.feldRegistrieren(ersteFeld);
-    	}
+		Knoten.feldRegistrieren(ersteFeld);
     	ersteFeld.setIstPlaziert(true);
+		Knoten.feldRegistrieren(felder.get(1));
+		felder.get(1).setIstPlaziert(true);
     	
 	}
 }

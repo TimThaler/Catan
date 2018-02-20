@@ -10,16 +10,14 @@ implements interfaces.Kante{
 	private final int id;
 	
 	private static int idZaehler = 0;
-	
-	public static Set<Kante> kantenSet = new HashSet<Kante>();
-	
+		
 	public Kante(Ecke ersteEcke, Ecke zweiteEcke) {
 		this.ersteEcke = ersteEcke;
 		this.zweiteEcke = zweiteEcke;
 		id = idZaehler;
 		idZaehler++;
  
-		kantenSet.add(this);
+	
 
 		/*
 		System.out.println("Kante " + id + " mit Ecke " + ersteEcke.getId() + " und " + zweiteEcke.getId());

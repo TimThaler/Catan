@@ -25,6 +25,7 @@ implements interfaces.Knoten{
 	private Knoten(Feld feld) {
 		this.ecke1 = feld.getUnbesetzteEcke();
 		this.ecke1.setKnoten(this);
+
 		this.id=idZaehler;
 		idZaehler++;
 	}
@@ -42,36 +43,34 @@ implements interfaces.Knoten{
 		}else{
 			Iterator<Knoten> iterator = knotenMap.iterator(); 
 			Knoten knoten = knotenMap.firstElement();
-			/*System.out.println("erster Knoten: " + knoten.getId());
-			System.out.println(" is linked to  : " +  knoten.anzahlVerbundenerFelder());*/
+			
 			while(iterator.hasNext()) {
+
 				Knoten vglKnoten = (Knoten) iterator.next();
-				/*System.out.println("vgl  Knoten: " + vglKnoten.getId());
-				System.out.println(" is linked to  : " +  vglKnoten.anzahlVerbundenerFelder());*/
+
 				// find first node with most fields assigned
-				if (vglKnoten.anzahlVerbundenerFelder() != 3 &&
-						vglKnoten.anzahlVerbundenerFelder() > knoten.anzahlVerbundenerFelder()){
+				if (vglKnoten.anzahlBesetzterEckpunkte() < 3 &&
+						vglKnoten.anzahlBesetzterEckpunkte() > knoten.anzahlBesetzterEckpunkte()
+						){
 					knoten = vglKnoten;
 				}			
 			}
-			Ecke verbindungsEcke1 = knoten.getEcke();
-			
-			System.out.println(" verbindungsecke : " +  verbindungsEcke1.getId());
+			Ecke verbindungsEcke1 = knoten.getBesetzteEcke();
+			//get neighbour for occupied corner
 			Ecke verbindungsEcke2 = null;
 			Ecke[] nachbarecken = verbindungsEcke1.getNachbarEcken().toArray(new Ecke[verbindungsEcke1.getNachbarEcken().size()]);
-			
-			System.out.println(nachbarecken[0].getId() + " nachbar 0 id");
-			System.out.println(nachbarecken[0].getKnoten().getId());
-			//System.out.println(nachbarecken[0].getKnoten().getFreieEcke().getId() + " nachbar 1 id");
-			System.out.println(nachbarecken[0].getKnoten().anzahlVerbundenerFelder());
 
-			verbindungsEcke2 = nachbarecken[0];//.getKnoten().getFreieEcke();
+			verbindungsEcke2 = nachbarecken[0];
 			if(verbindungsEcke2 == null){
-				verbindungsEcke2 = nachbarecken[1];//.getKnoten().getFreieEcke();
+				verbindungsEcke2 = nachbarecken[1];
 			}
+			
+			//register two corners from field with two identified nodes
 			// add feld to register to this two nodes and create 4 new nodes
 			verbindungsEcke1.getKnoten().setFreieEcke(feld.getUnbesetzteEcke());
 			verbindungsEcke2.getKnoten().setFreieEcke(feld.getUnbesetzteEcke());
+
+			//connect rest of free corners to new nodes
 			for (int i = 0; i < Konstanten.ECKEN_PRO_FELD - 2; i++) {
 				System.out.println(feld.getId() + " feld id");
 				Knoten k = new Knoten(feld);
@@ -121,7 +120,7 @@ implements interfaces.Knoten{
 	}
 
 	@Override
-	public int anzahlVerbundenerFelder() {
+	public int anzahlBesetzterEckpunkte() {
 		int anz = 0;
 		if (this.ecke1 != null) {
 			anz++;
@@ -133,7 +132,7 @@ implements interfaces.Knoten{
 		return anz;
 	}
 
-	public Ecke getEcke() {
+	public Ecke getBesetzteEcke() {
 		if (this.ecke1 != null ) {				
 			return this.ecke1;
 		} else if (this.ecke2 != null ){			
