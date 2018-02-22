@@ -1,8 +1,5 @@
 package spielbrettKomponenten;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Kante 
 implements interfaces.Kante{
 	private final Ecke ersteEcke;
@@ -16,15 +13,6 @@ implements interfaces.Kante{
 		this.zweiteEcke = zweiteEcke;
 		id = idZaehler;
 		idZaehler++;
- 
-	
-
-		/*
-		System.out.println("Kante " + id + " mit Ecke " + ersteEcke.getId() + " und " + zweiteEcke.getId());
-		System.out.println(" Ecke " + ersteEcke.getId() + " gehoert zu Feld " + ersteEcke.getFeld().getId());
-
-		System.out.println(" Ecke " + zweiteEcke.getId() + " gehoert zu Feld " + zweiteEcke.getFeld().getId());
-		*/
 	}
 	
 	public boolean hasEcke(Ecke ecke) {

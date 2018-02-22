@@ -21,6 +21,8 @@ implements interfaces.Spielbrett{
 	public Spielbrett() {
 		this.felder = new Vector<Feld>();
 		Random r = new Random();
+		Ecke e = new Ecke(new Feld(Rohstoff.Erz,5));
+		e.getFeld();
 		
 	  
 		/**
@@ -42,8 +44,14 @@ implements interfaces.Spielbrett{
 		Feld ersteFeld = felder.firstElement();	
 		Knoten.feldRegistrieren(ersteFeld);
     	ersteFeld.setIstPlaziert(true);
-		Knoten.feldRegistrieren(felder.get(1));
-		felder.get(1).setIstPlaziert(true);
+		Feld zweiteFeld = felder.get(1);
+		Knoten.feldRegistrieren(zweiteFeld);
+		zweiteFeld.setIstPlaziert(true);
+		Knoten.feldRegistrieren(felder.get(2));
+		felder.get(2).setIstPlaziert(true);
+		int x = 0;
+		x++;
+		Knoten.printKnotenMap();
     	
 	}
 }

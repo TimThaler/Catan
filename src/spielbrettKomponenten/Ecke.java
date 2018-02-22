@@ -38,19 +38,15 @@ implements interfaces.Ecke{
 	
 	
 	@Override
-	public Set<Ecke> getNachbarEcken() {
-		Feld feld = this.getFeld();
+	public Set<Ecke> getNachbarEcken() { 
 		
 		Set<Ecke> nachbarn = new HashSet<Ecke>();
 
-		Iterator<Kante> iterator = feld.getKanten().iterator();
+		Iterator<Kante> iterator = this.getFeld().getKanten().iterator();
 	    while(iterator.hasNext()) {
 	    	Kante k = iterator.next();
-	    //	System.out.println(k.getId() + " kanten id");
 	    	
 	    	if (k.hasEcke(this)) {
-	    	//	System.out.println(this.getId() + " ecken id");
-	    	//	System.out.println(k.getNachbarEcke(this).getId() + " nachbarecken id");
 				nachbarn.add(k.getNachbarEcke(this));
 			}
 	    }
