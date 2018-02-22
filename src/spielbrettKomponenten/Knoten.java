@@ -35,46 +35,46 @@ implements interfaces.Knoten{
 				knotenMap.addElement(k);	
 			}
 		}else{
-			Iterator<Knoten> iterator = knotenMap.iterator(); 
+			Iterator<Knoten> knotenMapIteratror = knotenMap.iterator(); 
 			Knoten verbindungsKnoten1 = knotenMap.firstElement();
 			
-			//from all nodes get the one with most connected places (2)
-			while(iterator.hasNext()) {
-
-				Knoten vglKnoten = (Knoten) iterator.next();
-				System.out.println(vglKnoten.anzahlBesetzterEckpunkte() < 3 && vglKnoten.anzahlBesetzterEckpunkte() > verbindungsKnoten1.anzahlBesetzterEckpunkte());
-
-				// find first node with most fields assigned
+			// find first node with most fields assigned
+			// either one or two fields connects after first field is placed
+			while(knotenMapIteratror.hasNext()) {
+				Knoten vglKnoten = knotenMapIteratror.next();
+ 
 				if (vglKnoten.anzahlBesetzterEckpunkte() < 3 &&
 						vglKnoten.anzahlBesetzterEckpunkte() > verbindungsKnoten1.anzahlBesetzterEckpunkte()
 						){
 					verbindungsKnoten1 = vglKnoten;
 				}			
 			}
-			System.out.println("verb knoten: " + verbindungsKnoten1.anzahlBesetzterEckpunkte());
+			//System.out.println("verb knoten: " + verbindungsKnoten1.anzahlBesetzterEckpunkte());
 			//get nachbarknoten zu diesem Knoten
-			Ecke verbindungsEcke1 = null;
-			Ecke verbindungsEcke2 = null;
+			Ecke verbindungsEckeNachbar1 = null;
+			Ecke verbindungsEckeNachbar2 = null;
+			
 			if (verbindungsKnoten1.anzahlBesetzterEckpunkte() == 1) {
-				verbindungsEcke1 = verbindungsKnoten1.getBesetzteEcke();
-				Ecke[] nachbarecken = verbindungsEcke1.getNachbarEcken().toArray(new Ecke[verbindungsEcke1.getNachbarEcken().size()]);
+				verbindungsEckeNachbar1 = verbindungsKnoten1.getBesetzteEcke();
+				Ecke[] nachbarecken = verbindungsEckeNachbar1.getNachbarEcken().
+						toArray(new Ecke[verbindungsEckeNachbar1.getNachbarEcken().size()]);
 
 				if (nachbarecken[0].getKnoten().anzahlBesetzterEckpunkte() < 3) {
-					verbindungsEcke2 = nachbarecken[0] ;
+					verbindungsEckeNachbar2 = nachbarecken[0] ;
 				} else if (nachbarecken[1].getKnoten().anzahlBesetzterEckpunkte() < 3){
-					verbindungsEcke2 = nachbarecken[1];
+					verbindungsEckeNachbar2 = nachbarecken[1];
 				} else {
 					System.out.println("something s wrong");
 					//System.exit(0);
 				}
-				Knoten tmp = verbindungsEcke2.getKnoten();
+				Knoten tmp = verbindungsEckeNachbar2.getKnoten();
 				Ecke e = feld.getUnbesetzteEcke();
 				verbindungsKnoten1.setFreieEcke(e);
 				e.setKnoten(verbindungsKnoten1);
+				
 				e = feld.getUnbesetzteEcke();
 				tmp.setFreieEcke(feld.getUnbesetzteEcke());
 				e.setKnoten(verbindungsKnoten1);
-
 				
 			} else if (verbindungsKnoten1.anzahlBesetzterEckpunkte() == 2){
 				System.out.println("do something");
@@ -83,11 +83,6 @@ implements interfaces.Knoten{
 				System.out.println("verbindungsknoten hat mehr als eine ecke");
 			}
 
-
-			
-			
-			System.out.println(verbindungsEcke1.getKnoten().getId());
-			System.out.println(verbindungsEcke2.getKnoten().getId());
 
 			//register two corners from field with two identified nodes
 			// add feld to register to this two nodes and create 4 new nodes
@@ -101,17 +96,20 @@ implements interfaces.Knoten{
 			}
 			
 		}
+	//	System.out.println(knotenMap.size() + " size of knotenmap");
 		
 	}
 
 	@Override
 	public int anzahlBesetzterEckpunkte() {
 		int anz = 0;
-		if (this.ecke1 != null) {
+		if(this.ecke1 != null) {
 			anz++;
-		}else if (this.ecke2 != null) {
+		}
+		if(this.ecke2 != null) {
 			anz++;
-		}else if (this.ecke3 != null) {
+		}
+		if(this.ecke3 != null) {
 			anz++;
 		}
 		return anz;
@@ -146,6 +144,7 @@ implements interfaces.Knoten{
 	}
 	
 	public void setFreieEcke(Ecke ecke) {
+
 		if(this.ecke2 == null) {
 			this.ecke2 = ecke;
 		}else if(this.ecke3 == null) {

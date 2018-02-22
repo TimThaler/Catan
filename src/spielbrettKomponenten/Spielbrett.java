@@ -47,6 +47,7 @@ implements interfaces.Spielbrett{
 		Feld zweiteFeld = felder.get(1);
 		Knoten.feldRegistrieren(zweiteFeld);
 		zweiteFeld.setIstPlaziert(true);
+		
 		Knoten.feldRegistrieren(felder.get(2));
 		felder.get(2).setIstPlaziert(true);
 		int x = 0;
