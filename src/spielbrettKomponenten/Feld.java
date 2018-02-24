@@ -33,10 +33,11 @@ implements interfaces.Feld{
 		
 		//create edge-relation between corners for field
 		int i = 0;
-    	Kante kante = new Kante(this.ecken.firstElement(),this.ecken.lastElement());
+		Ausrichtung[] ausrichtung = Ausrichtung.values();
+    	Kante kante = new Kante(this.ecken.firstElement(),this.ecken.lastElement(),ausrichtung[0]);
     	kanten.addElement(kante);
     	while(i < Konstanten.ECKEN_PRO_FELD - 1){
-    		Kante k = new Kante(this.ecken.elementAt(i),this.ecken.elementAt(i+1)); 
+    		Kante k = new Kante(this.ecken.elementAt(i),this.ecken.elementAt(i+1),ausrichtung[i+1]); 
         	kanten.add(k);
     		i++;
     	}
@@ -62,6 +63,16 @@ implements interfaces.Feld{
 		this.istPlaziert = istGesetzt;
 	}
 
+	public int getAnzahlUnbesetzterEcken(){
+		int zaehler = 0;
+		for(Ecke e : ecken) {
+			if(!e.eckVerbundenMitKnoten()){
+				zaehler++;
+			}
+		}
+ 		return zaehler;
+		
+	}
 	@Override
 	public Ecke getUnbesetzteEcke() {
 		for(Ecke e : ecken){
