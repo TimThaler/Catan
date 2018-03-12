@@ -1,5 +1,6 @@
 package spielbrettKomponenten;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 import enums.*;
@@ -87,4 +88,69 @@ implements interfaces.Feld{
 		return kanten;
 	}
 
+	public Kante getOstKante() {
+		for(Kante k : kanten) {
+			if(k.getAusrichtung() == Ausrichtung.ost) {
+				return k;
+			}
+		}
+		return null;
+	}
+	
+	public Kante getnordOstKante() {
+		for(Kante k : kanten) {
+			if(k.getAusrichtung() == Ausrichtung.nordOst) {
+				return k;
+			}
+		}
+		return null;
+	}
+	
+	public Kante getnordWestKante() {
+		for(Kante k : kanten) {
+			if(k.getAusrichtung() == Ausrichtung.nordWest) {
+				return k;
+			}
+		}
+		return null;
+	}
+	
+	public Kante getsuedWestKante() {
+		for(Kante k : kanten) {
+			if(k.getAusrichtung() == Ausrichtung.suedWest) {
+				return k;
+			}
+		}
+		return null;
+	}
+	
+	public Kante getsuedOstKante() {
+		for(Kante k : kanten) {
+			if(k.getAusrichtung() == Ausrichtung.suedOst) {
+				return k;
+			}
+		}
+		return null;
+	}
+	public Kante getWestKante() {
+		for(Kante k : kanten) {
+			if(k.getAusrichtung() == Ausrichtung.west) {
+				return k;
+			}
+		}
+		return null;
+	}
+	
+	public void printFeldInfo() {
+		for (Iterator<Kante> iterator = kanten.iterator(); iterator.hasNext();) {
+			Kante k = (Kante) iterator.next();
+			Ecke e = k.getNachbarEcke(k.getErsteEcke());
+			System.out.println("Feld id: " + this.id + " |  Kanten id: " + k.getId() +
+					" | ID of kante " + k.getErsteEcke().getId() + "  " + 
+					e.getId() +		
+					" | ausrichung: " + k.getAusrichtung());
+			
+		}
+		
+	}
 }

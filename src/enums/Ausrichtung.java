@@ -1,10 +1,10 @@
 package enums;
 
 public enum Ausrichtung {
+	west,
 	nordWest,
 	nordOst,
-	suedWest,
+	ost,
 	suedOst,
-	west,
-	sued
+	suedWest
 }

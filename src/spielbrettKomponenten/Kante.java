@@ -1,16 +1,21 @@
 package spielbrettKomponenten;
 
+import enums.Ausrichtung;
+
 public class Kante 
 implements interfaces.Kante{
 	private final Ecke ersteEcke;
 	private final Ecke zweiteEcke;
 	private final int id;
+	private final Ausrichtung ausrichtung;
+	private Kante nachbarKante = null;
 	
 	private static int idZaehler = 0;
 		
-	public Kante(Ecke ersteEcke, Ecke zweiteEcke) {
+	public Kante(Ecke ersteEcke, Ecke zweiteEcke, Ausrichtung ausrichtung) {
 		this.ersteEcke = ersteEcke;
 		this.zweiteEcke = zweiteEcke;
+		this.ausrichtung = ausrichtung;
 		id = idZaehler;
 		idZaehler++;
 	}
@@ -22,11 +27,11 @@ implements interfaces.Kante{
 			return false;
 		}
 	}
-	public Ecke getFirstCorner() {
+	public Ecke getErsteEcke() {
 		return this.ersteEcke;
 	}
 
-	public Ecke getSecondCorner() {
+	public Ecke getZweiteEcke() {
 		return this.zweiteEcke;
 	}
 	
@@ -47,4 +52,15 @@ implements interfaces.Kante{
 		return this.id;
 	}
 
+	public Ausrichtung getAusrichtung() {
+		return this.ausrichtung;
+	}
+
+	public Kante getNachbarKante() {
+		return nachbarKante;
+	}
+
+	public void setNachbarKante(Kante nachbarKante) {
+		this.nachbarKante = nachbarKante;
+	}
 }
