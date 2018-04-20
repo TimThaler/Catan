@@ -37,7 +37,6 @@ implements interfaces.Spielbrett{
 		zweiteReiheLegen(1);
 		
 		Knoten.printKnotenMap();
-    	
 	}
 	
 	public void zweiteReiheLegen(int anzahl) {
@@ -83,14 +82,11 @@ implements interfaces.Spielbrett{
 		this.ersteFeldZweiteReihe.getnordWestKante().setNachbarKante(soKanteReihe1);
 		this.ersteFeldZweiteReihe.getnordOstKante().setNachbarKante(swKanteReihe1);
 		
-		
-
 		while(this.ersteFeldZweiteReihe.getUnbesetzteEcke() != null) {
 			new Knoten(this.ersteFeldZweiteReihe.getUnbesetzteEcke());
 		}
 		
 		Feld vorgaenger = this.ersteFeldZweiteReihe;
-		
 		
 		for(int i = 0; i < anzahl - 1 ; i++){
 			rohstoff = Rohstoff.values()[(r.nextInt(5))];			
@@ -116,7 +112,26 @@ implements interfaces.Spielbrett{
 			aktuellesFeld.getnordWestKante().setNachbarKante(vorgaengerSuedOstKante);
 			aktuellesFeld.getnordOstKante().setNachbarKante(vorgaengerSuedWestKante);
 
-		
+			/**
+			 * Corners to connect
+			 */
+			Ecke e1 = aktuellesFeld.getGemeinsameEcke(
+					aktuellesFeld.getnordOstKante(),
+					aktuellesFeld.getnordWestKante()
+					);	
+			Ecke e2 = aktuellesFeld.getnordOstKante().getNachbarEcke(e1);
+			Ecke e3 = aktuellesFeld.getGemeinsameEcke(
+					aktuellesFeld.getnordWestKante(),
+					aktuellesFeld.getWestKante()
+					);
+			Ecke e4 = aktuellesFeld.getWestKante().getNachbarEcke(e3);
+			
+			Knoten k1 = vorgaengerOstKante.getErsteEcke().getKnoten();
+			Knoten k2 = vorgaengerOstKante.getZweiteEcke().getKnoten();
+			
+			
+			//connect nodes 
+			
 			/*
 			suedOstKante = vorgaenger.getsuedOstKante();
 			suedwestKante = vorgaenger.getOstKante().getNachbarKante().
@@ -143,11 +158,9 @@ implements interfaces.Spielbrett{
 	}
 	
 	public void ersteReiheLegen(int anzahl) {
-
 		Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];			
 		this.ersteFeldErsteReihe = new Feld(rohstoff,(r.nextInt(11)+1));			
-		felder.addElement(this.ersteFeldErsteReihe);
-		 
+		felder.addElement(this.ersteFeldErsteReihe);		 
 		
 		for(int i = 1; i < anzahl; i++){	
 			rohstoff = Rohstoff.values()[(r.nextInt(5))];			
@@ -184,7 +197,6 @@ implements interfaces.Spielbrett{
 			while(feld.getUnbesetzteEcke() != null) {
 				new Knoten(feld.getUnbesetzteEcke());
 			}
-			
 		}
 	}
 }

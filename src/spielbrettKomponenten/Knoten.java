@@ -39,7 +39,6 @@ implements interfaces.Knoten{
 		
 		this.id=idZaehler;
 		idZaehler++;
-
 	}
 	
 	//shitty constructor
@@ -72,7 +71,6 @@ implements interfaces.Knoten{
 		}
 		return anz;
 	}
-
 		 
 	public void setFreieEcke(Ecke ecke) {
 		//call this method hier seems to be an awkward place
