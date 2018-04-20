@@ -27,7 +27,7 @@ implements interfaces.Feld{
 		idZaehler++;		
 		
 		//Create corners for field
-		for(int x =0; x < Konstanten.ECKEN_PRO_FELD; x++){
+		for(int x = 0; x < Konstanten.ECKEN_PRO_FELD; x++){
 			Ecke ecke = new Ecke(this);
     		this.ecken.addElement(ecke);
       	}	
@@ -71,7 +71,15 @@ implements interfaces.Feld{
 				zaehler++;
 			}
 		}
- 		return zaehler;
+ 		return zaehler;	
+	}
+	
+	public void printEckenId() {
+		System.out.println("eckenids or feld");
+		for (Iterator iterator = ecken.iterator(); iterator.hasNext();) {
+			Ecke ecke = (Ecke) iterator.next();
+			System.out.println(ecke.getId());
+		}
 		
 	}
 	@Override
@@ -86,6 +94,26 @@ implements interfaces.Feld{
 
 	public Vector<Kante> getKanten() {
 		return kanten;
+	}
+	
+	public Ecke getGemeinsameEcke(Kante k1, Kante k2) {
+		Ecke e = null;
+		if (k1.getErsteEcke().getId() == k2.getErsteEcke().getId()){
+			e = k1.getErsteEcke();
+		}
+		else if(k1.getZweiteEcke().getId() == k2.getErsteEcke().getId()) {
+			e = k1.getZweiteEcke();
+		}
+		else if(k1.getErsteEcke().getId() == k2.getZweiteEcke().getId()){
+			e = k1.getErsteEcke();
+		}
+		else if(k1.getZweiteEcke().getId() == k2.getZweiteEcke().getId()){
+			e = k1.getZweiteEcke();
+		}
+		if(e == null) {
+			//throw exception
+		}
+		return e;
 	}
 
 	public Kante getOstKante() {

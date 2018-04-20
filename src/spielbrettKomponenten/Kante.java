@@ -63,4 +63,27 @@ implements interfaces.Kante{
 	public void setNachbarKante(Kante nachbarKante) {
 		this.nachbarKante = nachbarKante;
 	}
+	
+	public Knoten getGemeinsamenKnoten(Kante k) {
+		Knoten knoten = null;
+		Knoten k1 = this.getErsteEcke().getKnoten();
+		Knoten k2 = this.getZweiteEcke().getKnoten();
+		Knoten k1Nachbar = k.getErsteEcke().getKnoten();
+		Knoten k2Nachbar = k.getZweiteEcke().getKnoten();
+
+		if (k1.getId() == k1Nachbar.getId()) {
+			knoten =  k1;
+		} else if (k1.getId() == k2Nachbar.getId()) {
+			knoten = k1;
+		} else if (k2.getId() == k2Nachbar.getId()) {
+			knoten = k2;
+		} else if (k2.getId() == k2Nachbar.getId()) {
+			knoten = k2;
+		}
+		if(knoten == null) {
+			System.out.println("Error getGemeinsamenKnoten");;
+//			throw Exception e 
+		}
+		return knoten;
+	}
 }

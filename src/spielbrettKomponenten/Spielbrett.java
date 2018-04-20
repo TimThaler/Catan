@@ -11,6 +11,7 @@ implements interfaces.Spielbrett{
 	private static Spielbrett instance = null;
 	private Vector<Feld> felder = null;
 
+	private Random r = new Random();
 	private Feld ersteFeldErsteReihe = null;
 	private Feld ersteFeldZweiteReihe = null;
 	public static Spielbrett getInstance() {
@@ -22,7 +23,6 @@ implements interfaces.Spielbrett{
 
 	public Spielbrett() {
 		this.felder = new Vector<Feld>();
-		Random r = new Random();
 		
 		
 	  
@@ -36,13 +36,6 @@ implements interfaces.Spielbrett{
 		}   
 		 
 		//System.out.println("hello world");
-		/**
-		 * link fields
-		 * get first field link it with 6 nodes
-		 * get 2nd field link it with 2 or nodes and create 4 new nodes
-		 * get 3rd field link it with 2 or 3 existing nodes (therefore fields) create 4 or 3 new nodes
-		 * get 4th field link it with 2 or 3 existing nodes (therefore fields) and create 4 or 3 new nodes
-		 */
 	/*	Feld ersteFeld = felder.firstElement();	
 		Knoten.feldRegistrieren(ersteFeld);
     	ersteFeld.setIstPlaziert(true);
@@ -56,47 +49,82 @@ implements interfaces.Spielbrett{
 		x++;*/
 		ersteReiheLegen(2);
 		zweiteReiheLegen(1);
+		
 		Knoten.printKnotenMap();
 	 
     	
 	}
 	
 	public void zweiteReiheLegen(int anzahl) {
-		int offset = felder.size();
-		Random r = new Random();		
 		Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];			
 		this.ersteFeldZweiteReihe = new Feld(rohstoff,(r.nextInt(11)+1));			
-		felder.addElement(ersteFeldZweiteReihe);
+		felder.addElement(this.ersteFeldZweiteReihe);
 		
-		//get information about first two fields from the first row 
-		Kante suedOstKante = this.ersteFeldErsteReihe.getsuedOstKante();
-		Kante suedwestKante = this.ersteFeldErsteReihe.getOstKante().getNachbarKante().
+		/**
+		 * get information about first two fields from the first row 
+		 * with their two edges we are able to place the first field
+		 */
+		 
+		Kante soKanteReihe1  = this.ersteFeldErsteReihe.getsuedOstKante();
+		Kante swKanteReihe1  = this.ersteFeldErsteReihe.getOstKante().getNachbarKante().
 				getErsteEcke().getFeld().getsuedWestKante();
 		
-		Knoten suedOstKnoten1 = suedOstKante.getErsteEcke().getKnoten();
-		Knoten suedOstKnoten2 = suedOstKante.getZweiteEcke().getKnoten();
-		Knoten suedWestKnoten1 = suedwestKante.getErsteEcke().getKnoten();
-		Knoten suedWestKnoten2 = suedwestKante.getZweiteEcke().getKnoten();
-		
-		suedOstKnoten1.setFreieEcke(ersteFeldZweiteReihe.getnordWestKante().getErsteEcke());
-		suedOstKnoten2.setFreieEcke(ersteFeldZweiteReihe.getnordWestKante().getZweiteEcke());
-		
-		suedWestKnoten1.setFreieEcke(ersteFeldZweiteReihe.getnordOstKante().getErsteEcke());
-		suedWestKnoten2.setFreieEcke(ersteFeldZweiteReihe.getnordOstKante().getZweiteEcke());
-		
-		//set neighbour edges
-		ersteFeldZweiteReihe.getnordWestKante().setNachbarKante(suedOstKante);
-		ersteFeldZweiteReihe.getnordOstKante().setNachbarKante(suedwestKante);
-		//at the end move field forward
-		
-		while(ersteFeldZweiteReihe.getUnbesetzteEcke() != null) {
-			new Knoten(ersteFeldZweiteReihe.getUnbesetzteEcke());
+		Knoten gemeinsamerKonten = soKanteReihe1.getGemeinsamenKnoten(swKanteReihe1);
+		System.out.println("gemeinsamer Knoten: " + gemeinsamerKonten.getId());
+		Knoten soKnoten = null;
+		Knoten swKnoten = null;
+		if(soKanteReihe1.getErsteEcke().getKnoten().getId() == gemeinsamerKonten.getId()) {
+			soKnoten = soKanteReihe1.getZweiteEcke().getKnoten();
+		} else {
+			soKnoten = soKanteReihe1.getErsteEcke().getKnoten();
 		}
 		
-		Feld vorgaenger = ersteFeldZweiteReihe;
+		if(swKanteReihe1.getErsteEcke().getKnoten().getId() == gemeinsamerKonten.getId()) {
+			swKnoten = swKanteReihe1.getZweiteEcke().getKnoten();
+		} else {
+			swKnoten = swKanteReihe1.getErsteEcke().getKnoten();
+		}
+		
+		/*Knoten suedOstKnoten1  = suedOstKante.getErsteEcke().getKnoten();
+		Knoten suedOstKnoten2  = suedOstKante.getZweiteEcke().getKnoten();
+		Knoten suedWestKnoten1 = suedwestKante.getErsteEcke().getKnoten();
+		Knoten suedWestKnoten2 = suedwestKante.getZweiteEcke().getKnoten();
+		*/
+		
+		Ecke gemeinsameEcke = this.ersteFeldZweiteReihe.getGemeinsameEcke(
+				ersteFeldZweiteReihe.getnordOstKante(),
+				ersteFeldZweiteReihe.getnordWestKante());
+		
+		gemeinsamerKonten.setFreieEcke(gemeinsameEcke);
+				
+		System.out.println("set ecken to knoten");
+		System.out.println(this.ersteFeldZweiteReihe.getnordOstKante().getNachbarEcke(gemeinsameEcke).getId());
+		System.out.println(this.ersteFeldZweiteReihe.getnordWestKante().getNachbarEcke(gemeinsameEcke).getId());
+		System.out.println(swKnoten.getId());
+		soKnoten.setFreieEcke(this.ersteFeldZweiteReihe.getnordOstKante().getNachbarEcke(gemeinsameEcke));		
+		swKnoten.setFreieEcke(this.ersteFeldZweiteReihe.getnordWestKante().getNachbarEcke(gemeinsameEcke));
+			
+			//suedWestKnoten2.setFreieEcke(this.ersteFeldZweiteReihe.getnordOstKante().getZweiteEcke());
+		
+		 
+		
+		 
+
+		this.ersteFeldZweiteReihe.getnordWestKante().setNachbarKante(soKanteReihe1);
+		this.ersteFeldZweiteReihe.getnordOstKante().setNachbarKante(swKanteReihe1);
+		//at the end move field forward
+		
+
+		while(this.ersteFeldZweiteReihe.getUnbesetzteEcke() != null) {
+			new Knoten(this.ersteFeldZweiteReihe.getUnbesetzteEcke());
+			//System.out.println("UnbesetzteEcke" + ersteFeldZweiteReihe.getUnbesetzteEcke().getId());
+
+		}
+		
+		Feld vorgaenger = this.ersteFeldZweiteReihe;
 		
 		
-		for(int i = 0; i < anzahl - 1 ; i++){
+		/*for(int i = 0; i < anzahl - 1 ; i++){
 			//init new field and add it to fieldvector
 			rohstoff = Rohstoff.values()[(r.nextInt(5))];			
 			Feld aktuellesFeld = new Feld(rohstoff,(r.nextInt(11)+1));			
@@ -113,23 +141,22 @@ implements interfaces.Spielbrett{
 			suedWestKnoten1 = suedwestKante.getErsteEcke().getKnoten();
 			suedWestKnoten2 = suedwestKante.getZweiteEcke().getKnoten();
 			
-			suedOstKnoten1.setFreieEcke(ersteFeldZweiteReihe.getnordWestKante().getErsteEcke());
-			suedOstKnoten2.setFreieEcke(ersteFeldZweiteReihe.getnordWestKante().getZweiteEcke());
+			suedOstKnoten1.setFreieEcke(this.ersteFeldZweiteReihe.getnordWestKante().getErsteEcke());
+			suedOstKnoten2.setFreieEcke(this.ersteFeldZweiteReihe.getnordWestKante().getZweiteEcke());
 			
-			suedWestKnoten1.setFreieEcke(ersteFeldZweiteReihe.getnordOstKante().getErsteEcke());
-			suedWestKnoten2.setFreieEcke(ersteFeldZweiteReihe.getnordOstKante().getZweiteEcke());
+			suedWestKnoten1.setFreieEcke(this.ersteFeldZweiteReihe.getnordOstKante().getErsteEcke());
+			suedWestKnoten2.setFreieEcke(this.ersteFeldZweiteReihe.getnordOstKante().getZweiteEcke());
 			
 			//set neighbour edges
-			ersteFeldZweiteReihe.getnordWestKante().setNachbarKante(suedOstKante);
-			ersteFeldZweiteReihe.getnordOstKante().setNachbarKante(suedwestKante);
+			this.ersteFeldZweiteReihe.getnordWestKante().setNachbarKante(suedOstKante);
+			this.ersteFeldZweiteReihe.getnordOstKante().setNachbarKante(suedwestKante);
 			//at the end move field forward
 			vorgaenger = aktuellesFeld;
-		} 	
+		} 	*/
 	}
 	
 	public void ersteReiheLegen(int anzahl) {
 
-		Random r = new Random();
 		Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];			
 		this.ersteFeldErsteReihe = new Feld(rohstoff,(r.nextInt(11)+1));			
 		felder.addElement(this.ersteFeldErsteReihe);
@@ -148,16 +175,16 @@ implements interfaces.Spielbrett{
 			ersteFeld = felder.get(i);
 			zweiteFeld = felder.get(i+1);
 
-			Kante kOst = ersteFeld.getOstKante();
-			Kante kWest = zweiteFeld.getWestKante();
+			Kante kOstFeldEins = ersteFeld.getOstKante();
+			Kante kWestFeldZwei = zweiteFeld.getWestKante();
 			
-			kOst.setNachbarKante(kWest);
-			kWest.setNachbarKante(kOst);
+			kOstFeldEins.setNachbarKante(kWestFeldZwei);
+			kWestFeldZwei.setNachbarKante(kOstFeldEins);
 			
-			Ecke e1 = kOst.getErsteEcke();
-			Ecke e2 = kWest.getErsteEcke();		
-			Ecke e11 = kOst.getNachbarEcke(e1);
-			Ecke e22 = kWest.getNachbarEcke(e2);
+			Ecke e1 = kOstFeldEins.getErsteEcke();
+			Ecke e2 = kWestFeldZwei.getErsteEcke();		
+			Ecke e11 = kOstFeldEins.getNachbarEcke(e1);
+			Ecke e22 = kWestFeldZwei.getNachbarEcke(e2);
 			
 			new Knoten(e1,e2);
 			new Knoten(e11,e22);
