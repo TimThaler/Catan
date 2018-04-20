@@ -9,10 +9,12 @@ implements interfaces.Kante{
 	private final int id;
 	private final Ausrichtung ausrichtung;
 	private Kante nachbarKante = null;
+	private final Feld feld;
 	
 	private static int idZaehler = 0;
 		
-	public Kante(Ecke ersteEcke, Ecke zweiteEcke, Ausrichtung ausrichtung) {
+	public Kante(Ecke ersteEcke, Ecke zweiteEcke, Ausrichtung ausrichtung, Feld feld) {
+		this.feld = feld;
 		this.ersteEcke = ersteEcke;
 		this.zweiteEcke = zweiteEcke;
 		this.ausrichtung = ausrichtung;
@@ -56,12 +58,21 @@ implements interfaces.Kante{
 		return this.ausrichtung;
 	}
 
+	/**
+	 * Nachbarkante ist die Kante die direkt an (this) dieser Kante anliegt.
+	 * Gehört zu einem andern Feld
+	 * @return
+	 */
 	public Kante getNachbarKante() {
 		return nachbarKante;
 	}
 
 	public void setNachbarKante(Kante nachbarKante) {
 		this.nachbarKante = nachbarKante;
+	}
+	
+	public Feld getFeld() {
+		return this.feld;
 	}
 	
 	public Knoten getGemeinsamenKnoten(Kante k) {

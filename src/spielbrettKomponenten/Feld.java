@@ -35,10 +35,10 @@ implements interfaces.Feld{
 		//create edge-relation between corners for field
 		int i = 0;
 		Ausrichtung[] ausrichtung = Ausrichtung.values();
-    	Kante kante = new Kante(this.ecken.firstElement(),this.ecken.lastElement(),ausrichtung[0]);
+    	Kante kante = new Kante(this.ecken.firstElement(),this.ecken.lastElement(),ausrichtung[0],this);
     	kanten.addElement(kante);
     	while(i < Konstanten.ECKEN_PRO_FELD - 1){
-    		Kante k = new Kante(this.ecken.elementAt(i),this.ecken.elementAt(i+1),ausrichtung[i+1]); 
+    		Kante k = new Kante(this.ecken.elementAt(i),this.ecken.elementAt(i+1),ausrichtung[i+1],this); 
         	kanten.add(k);
     		i++;
     	}

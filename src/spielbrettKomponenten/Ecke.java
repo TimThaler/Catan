@@ -59,7 +59,6 @@ implements interfaces.Ecke{
 				nachbarn.add(k.getNachbarEcke(this));
 			}
 	    }
-	    return nachbarn;
-			
+	    return nachbarn;		
 	}
 }
