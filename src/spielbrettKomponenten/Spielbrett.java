@@ -1,14 +1,15 @@
 package spielbrettKomponenten;
 
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
 import enums.*;
 import interfaces.*;
 
-public class Spielbrett 
-implements interfaces.Spielbrett{
+public class Spielbrett
+implements interfaces.Spielbrett
+{
+	private static final long serialVersionUID = 1L;
 	private static Spielbrett instance = null;
 	private Vector<Feld> felder = null;
 
