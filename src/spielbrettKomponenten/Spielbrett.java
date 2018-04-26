@@ -50,114 +50,137 @@ implements interfaces.Spielbrett{
 		 * with their two edges we are able to place the first field
 		 */
 		 
-		Kante soKanteReihe1  = this.ersteFeldErsteReihe.getsuedOstKante();
-		Kante swKanteReihe1  = this.ersteFeldErsteReihe.getOstKante().getNachbarKante().
-				getErsteEcke().getFeld().getsuedWestKante();
-		
-		Knoten gemeinsamerKonten = soKanteReihe1.getGemeinsamenKnoten(swKanteReihe1);
-		System.out.println("gemeinsamer Knoten: " + gemeinsamerKonten.getId());
-		Knoten soKnoten = null;
-		Knoten swKnoten = null;
-		if(soKanteReihe1.getErsteEcke().getKnoten().getId() == gemeinsamerKonten.getId()) {
-			soKnoten = soKanteReihe1.getZweiteEcke().getKnoten();
-		} else {
-			soKnoten = soKanteReihe1.getErsteEcke().getKnoten();
-		}
-		
-		if(swKanteReihe1.getErsteEcke().getKnoten().getId() == gemeinsamerKonten.getId()) {
-			swKnoten = swKanteReihe1.getZweiteEcke().getKnoten();
-		} else {
-			swKnoten = swKanteReihe1.getErsteEcke().getKnoten();
-		}
-		
-		
-		Ecke gemeinsameEcke = this.ersteFeldZweiteReihe.getGemeinsameEcke(
-				ersteFeldZweiteReihe.getnordOstKante(),
-				ersteFeldZweiteReihe.getnordWestKante());
-		
-		gemeinsamerKonten.setFreieEcke(gemeinsameEcke);
-				
-		soKnoten.setFreieEcke(this.ersteFeldZweiteReihe.getnordOstKante().getNachbarEcke(gemeinsameEcke));		
-		swKnoten.setFreieEcke(this.ersteFeldZweiteReihe.getnordWestKante().getNachbarEcke(gemeinsameEcke));
+		Feld nwNeighborField = this.ersteFeldErsteReihe;
+		Feld neNeighborField = nwNeighborField.getOstKante().getNachbarKante().getFeld();
 
-		this.ersteFeldZweiteReihe.getnordWestKante().setNachbarKante(soKanteReihe1);
-		this.ersteFeldZweiteReihe.getnordOstKante().setNachbarKante(swKanteReihe1);
+		/*find common node and connect it to north corner of current field*/
+		Knoten gemeinsamerKonten = null;
+
+		Ecke nwNeighborSECorner = nwNeighborField.getGemeinsameEcke(
+				nwNeighborField.getsuedOstKante(),
+				nwNeighborField.getOstKante());
+		
+		Ecke neNeighborSWCorner = neNeighborField.getGemeinsameEcke(
+				neNeighborField.getsuedWestKante(),
+				neNeighborField.getWestKante());
+		
+		if (nwNeighborSECorner.getKnoten().getId() != neNeighborSWCorner.getKnoten().getId()) {
+			System.out.println("Error nodes do not match");
+		} else {
+			gemeinsamerKonten = nwNeighborSECorner.getKnoten();
+		}
+		
+		Ecke currentFieldNCorner = this.ersteFeldZweiteReihe.getGemeinsameEcke(
+				this.ersteFeldZweiteReihe.getnordOstKante(),
+				this.ersteFeldZweiteReihe.getnordWestKante());
+		
+		gemeinsamerKonten.setFreieEcke(currentFieldNCorner);
+		currentFieldNCorner.setKnoten(gemeinsamerKonten);
+		/*DONE*/
+		
+		/*connect left and right corners of current field to nodes left and right of the common node*/
+		Ecke currentFieldNWCorner = this.ersteFeldZweiteReihe.getnordWestKante().getNachbarEcke(currentFieldNCorner);
+		Ecke currentFieldNOCorner = this.ersteFeldZweiteReihe.getnordOstKante().getNachbarEcke(currentFieldNCorner);
+		
+		
+		Knoten nwKnoten = nwNeighborField.getsuedOstKante().getNachbarEcke(nwNeighborSECorner).getKnoten();
+		Knoten noKnoten = neNeighborField.getsuedWestKante().getNachbarEcke(neNeighborSWCorner).getKnoten();
+		
+		
+		/**
+		 * corners gets hidden in set free node function assigned to node -.-
+		 */
+		//gemeinsameEcke.setKnoten(gemeinsamerKonten);		
+		noKnoten.setFreieEcke(currentFieldNOCorner);		
+		nwKnoten.setFreieEcke(currentFieldNWCorner);
+
+		this.ersteFeldZweiteReihe.getnordWestKante().setNachbarKante(nwNeighborField.getsuedOstKante());
+		this.ersteFeldZweiteReihe.getnordOstKante().setNachbarKante(neNeighborField.getsuedWestKante());
 		
 		while(this.ersteFeldZweiteReihe.getUnbesetzteEcke() != null) {
 			new Knoten(this.ersteFeldZweiteReihe.getUnbesetzteEcke());
 		}
 		
-		Feld vorgaengerLinks = this.ersteFeldZweiteReihe;
 		
+		Feld vorgaengerLinks = this.ersteFeldZweiteReihe;
+
 		for(int i = 0; i < anzahl -1; i++){
+			
 			rohstoff = Rohstoff.values()[(r.nextInt(5))];			
 			Feld aktuellesFeld = new Feld(rohstoff,(r.nextInt(11)+1));			
 			felder.addElement(aktuellesFeld);
 			
-			vorgaengerLinks.getOstKante().setNachbarKante(aktuellesFeld.getWestKante());
-			
-			/*
-			 * get vorgaenger ost kante
-			 * get suedost kante verbunden mit ost kante
-			 * get suedwest kante verbunden mit suedostkante
-			 */
+			/*wenn der nordost nachbar nicht da ist leg die kante nicht an und auch die knoten nicht
+			besetzen danach dann mit neuen knoten auffüllen*/
 			
 			Feld vorgaengerObenLinks = vorgaengerLinks.getnordOstKante().getNachbarKante().getFeld();
+			Kante vorgaengerOstKante = vorgaengerLinks.getOstKante();
+			Kante vorgaengerSuedOstKante = vorgaengerObenLinks.getsuedOstKante();
+			aktuellesFeld.getWestKante().setNachbarKante(vorgaengerOstKante);
+			aktuellesFeld.getnordWestKante().setNachbarKante(vorgaengerSuedOstKante);
+			
+			vorgaengerOstKante.setNachbarKante(aktuellesFeld.getWestKante());
+			
+			
+			/**
+			 * Corners from current field to connect
+			 */
+			Ecke e1 = aktuellesFeld.getGemeinsameEcke(
+					aktuellesFeld.getsuedWestKante(),
+					aktuellesFeld.getWestKante()
+					);	
+			Ecke e2 = aktuellesFeld.getWestKante().getNachbarEcke(e1);
+			Ecke e3 = aktuellesFeld.getnordWestKante().getNachbarEcke(e2);
+					
+			Knoten k1 = vorgaengerLinks.
+					getGemeinsameEcke(vorgaengerOstKante, 
+							vorgaengerLinks.getsuedOstKante()).
+					getKnoten();
+			
+			Knoten k2 = vorgaengerObenLinks.
+					getGemeinsameEcke(vorgaengerObenLinks.getsuedOstKante(), 
+							vorgaengerObenLinks.getsuedWestKante()).
+					getKnoten();
+
+			Knoten k3 = vorgaengerObenLinks.
+					getGemeinsameEcke(vorgaengerObenLinks.getsuedOstKante(), 
+							vorgaengerObenLinks.getOstKante()).
+					getKnoten();
+				
+			e1.setKnoten(k1);
+			e2.setKnoten(k2);
+			e3.setKnoten(k3);
+			
+			k1.setFreieEcke(e1);
+			k2.setFreieEcke(e2);
+			k3.setFreieEcke(e3);
+			
+			/**
+			 * if the neighbour field on the upper right edge is not present skip this here
+			 */
 			if (vorgaengerObenLinks.getOstKante().getNachbarKante() != null) {
 				Feld vorgaengerObenRechts = vorgaengerObenLinks.getOstKante().getNachbarKante().getFeld();
-				
-				Kante vorgaengerOstKante = vorgaengerLinks.getOstKante();
-				Kante vorgaengerSuedOstKante = vorgaengerObenLinks.getsuedOstKante();
 				Kante vorgaengerSuedWestKante = vorgaengerObenRechts.getsuedWestKante();
-				
-				aktuellesFeld.getWestKante().setNachbarKante(vorgaengerOstKante);
-				aktuellesFeld.getnordWestKante().setNachbarKante(vorgaengerSuedOstKante);
 				aktuellesFeld.getnordOstKante().setNachbarKante(vorgaengerSuedWestKante);
-
-				/**
-				 * Corners from current field to connect
-				 */
-				Ecke e1 = aktuellesFeld.getGemeinsameEcke(
-						aktuellesFeld.getsuedWestKante(),
-						aktuellesFeld.getWestKante()
-						);	
-				Ecke e2 = aktuellesFeld.getWestKante().getNachbarEcke(e1);
-				Ecke e3 = aktuellesFeld.getnordWestKante().getNachbarEcke(e2);
-				Ecke e4 = aktuellesFeld.getWestKante().getNachbarEcke(e3);
 				
-				Knoten k1 = vorgaengerLinks.
-						getGemeinsameEcke(vorgaengerOstKante, vorgaengerLinks.getsuedOstKante()).
-						getKnoten();
-				System.out.println("sdlfjkwer");
-				Knoten k2 = vorgaengerObenLinks.
-						getGemeinsameEcke(vorgaengerObenLinks.getsuedOstKante(), vorgaengerObenLinks.getsuedWestKante()).
-						getKnoten();
-
-				Knoten k3 = vorgaengerObenLinks.
-						getGemeinsameEcke(vorgaengerObenLinks.getsuedOstKante(), vorgaengerObenLinks.getOstKante()).
+				Ecke e4 = aktuellesFeld.getnordOstKante().getNachbarEcke(e3);
+				Knoten k4 = vorgaengerObenRechts.
+						getGemeinsameEcke(vorgaengerObenLinks.getsuedOstKante(), 
+								vorgaengerObenLinks.getOstKante()).
 						getKnoten();
 				
-				
-				
-				e1.setKnoten(k1);
-				e2.setKnoten(k2);
-				e3.setKnoten(k3);
-				
-	
-				k1.setFreieEcke(e1);
-				k2.setFreieEcke(e2);
-				k2.setFreieEcke(e3);
-				
-		
-				vorgaengerLinks = aktuellesFeld;
-				
+				e4.setKnoten(k4);
+				k4.setFreieEcke(e4);
 			}
-			for (Feld feld : felder) {
-				while(feld.getUnbesetzteEcke() != null) {
-					new Knoten(feld.getUnbesetzteEcke());
-				}
-			}	
+			
+			vorgaengerLinks = aktuellesFeld;		
 		}
+		for (Feld feld : felder) {
+			while(feld.getUnbesetzteEcke() != null) {
+				new Knoten(feld.getUnbesetzteEcke());
+			}
+		}	
+		//}
 	}
 	
 	public void ersteReiheLegen(int anzahl) {
