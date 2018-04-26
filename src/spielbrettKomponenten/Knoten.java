@@ -44,21 +44,6 @@ implements interfaces.Knoten{
 	public int getId() {
 		return this.id;
 	}
-
-	@Override
-	public int anzahlBesetzterEckpunkte() {
-		int anz = 0;
-		if(this.ecke1 != null) {
-			anz++;
-		}
-		if(this.ecke2 != null) {
-			anz++;
-		}
-		if(this.ecke3 != null) {
-			anz++;
-		}
-		return anz;
-	}
 		 
 	public void setFreieEcke(Ecke ecke) {
 		//call this method hier seems to be an awkward place
@@ -92,17 +77,5 @@ implements interfaces.Knoten{
 			}
 			System.out.println();
 		}
-	}
-
-	public Ecke getEcke2() {
-		return ecke2;
-	}
-
-	public Ecke getEcke3() {
-		return ecke3;
-	}
-
-	public Ecke getEcke1() {
-		return ecke1;
 	}
 }

@@ -28,13 +28,6 @@ implements interfaces.Ecke{
 		return this.feld;
 	}
 
-	public boolean eckVerbundenMitKnoten() {
-		if (this.knoten == null) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 	public Knoten getKnoten() {
 		if (this.knoten != null) {
 			return this.knoten;

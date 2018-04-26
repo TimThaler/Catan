@@ -56,22 +56,8 @@ implements interfaces.Feld{
 		return id;
 	}
 
-	public boolean istPlaziert() {
-		return istPlaziert;
-	}
-
 	public void setIstPlaziert(boolean istGesetzt) {
 		this.istPlaziert = istGesetzt;
-	}
-
-	public int getAnzahlUnbesetzterEcken(){
-		int zaehler = 0;
-		for(Ecke e : ecken) {
-			if(!e.eckVerbundenMitKnoten()){
-				zaehler++;
-			}
-		}
- 		return zaehler;	
 	}
 	
 	public void printEckenId() {
@@ -80,8 +66,8 @@ implements interfaces.Feld{
 			Ecke ecke = (Ecke) iterator.next();
 			System.out.println(ecke.getId());
 		}
-		
 	}
+	
 	@Override
 	public Ecke getUnbesetzteEcke() {
 		for(Ecke e : ecken){
@@ -100,16 +86,14 @@ implements interfaces.Feld{
 		Ecke e = null;
 		if (k1.getErsteEcke().getId() == k2.getErsteEcke().getId()){
 			e = k1.getErsteEcke();
-		}
-		else if(k1.getZweiteEcke().getId() == k2.getErsteEcke().getId()) {
+		} else if (k1.getZweiteEcke().getId() == k2.getErsteEcke().getId()) {
 			e = k1.getZweiteEcke();
-		}
-		else if(k1.getErsteEcke().getId() == k2.getZweiteEcke().getId()){
+		} else if (k1.getErsteEcke().getId() == k2.getZweiteEcke().getId()){
 			e = k1.getErsteEcke();
-		}
-		else if(k1.getZweiteEcke().getId() == k2.getZweiteEcke().getId()){
+		} else if (k1.getZweiteEcke().getId() == k2.getZweiteEcke().getId()){
 			e = k1.getZweiteEcke();
 		}
+		
 		if(e == null) {
 			//throw exception
 		}
@@ -178,7 +162,6 @@ implements interfaces.Feld{
 					e.getId() +		
 					" | ausrichung: " + k.getAusrichtung());
 			
-		}
-		
+		}		
 	}
 }
