@@ -41,18 +41,6 @@ implements interfaces.Knoten{
 		idZaehler++;
 	}
 	
-	//shitty constructor
-	private Knoten(Feld feld) {
-		this.ecke1 = feld.getUnbesetzteEcke();
-		// hidden in the constructor the corner sets the edge's node .... 
-		this.ecke1.setKnoten(this);
-
-		knotenMap.addElement(this);	
-
-		this.id=idZaehler;
-		idZaehler++;
-	}
-	
 	public int getId() {
 		return this.id;
 	}
