@@ -12,12 +12,17 @@ public class Spiel extends JFrame{
 	 private  userInterface.DrawingPanel drawingPanel;
 	
 	 public Spiel() {
-	        super("Lines Drawing Demo");
+		 /*hexagons two is not printed .....*/
+	        super("CATAN");
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	        userInterface.Hexagon hexagon = new userInterface.Hexagon(new Point(250, 250), 200);
+	        userInterface.Hexagon hexagon = new userInterface.Hexagon(new Point(100, 250), 200);
+	        userInterface.Hexagon hexagon2 = new userInterface.Hexagon(new Point(187, 250), 200);
 
-	        drawingPanel = new userInterface.DrawingPanel(hexagon);
+	        //drawingPanel = new userInterface.DrawingPanel(hexagon);
+	        drawingPanel = new userInterface.DrawingPanel();
+	        drawingPanel.addHexagon(hexagon);
+	        drawingPanel.addHexagon(hexagon2);
 	        add(drawingPanel);
 
 	        pack();
@@ -25,36 +30,18 @@ public class Spiel extends JFrame{
 	        setVisible(true);
 	 }
 	 
-	 public static void main(String[] args) {
-		/**
-		 * a) how to put singleton getInstance in interface class?!?
-		 * b) getNachbarEcke wenn ecke nicht passt soll eine exception geschmissen werden
-		 */
-		/**
-		 * Phasen
-		 * Spiel initialisieren(Spielbrett, Spieler, Startposition)
-		 * Wuerfeln
-		 * Rohstoffe einsammeln
-		 * Optionen anzeigen
-		 * Bauen 
-		 * punkte berechnen wenn gesamtpunkte erreicht -> zug vorbei
-		 * wieder wuerfeln
-		 */
- 
-		
-
-		    
+	 public static void main(String[] args) {    
 		Spielbrett spielbrett = Spielbrett.getInstance();
 		
-	/*	JFrame frame = new JFrame("Catan");
+		/*JFrame frame = new JFrame("Catan");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new userInterface.DrawingPanel());
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-	 	
+	 	*/
 		
-		 */
+		 
 		 SwingUtilities.invokeLater(new Runnable() {
 	            @Override
 	            public void run() {
@@ -63,3 +50,19 @@ public class Spiel extends JFrame{
 	        });
 	}
 }
+
+
+/**
+ * a) how to put singleton getInstance in interface class?!?
+ * b) getNachbarEcke wenn ecke nicht passt soll eine exception geschmissen werden
+ */
+/**
+ * Phasen
+ * Spiel initialisieren(Spielbrett, Spieler, Startposition)
+ * Wuerfeln
+ * Rohstoffe einsammeln
+ * Optionen anzeigen
+ * Bauen 
+ * punkte berechnen wenn gesamtpunkte erreicht -> zug vorbei
+ * wieder wuerfeln
+ */

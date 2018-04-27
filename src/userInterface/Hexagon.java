@@ -5,9 +5,7 @@ import java.awt.Polygon;
 
 public class Hexagon {
 	private final int radius;
-
     private final Point center;
-
     private final Polygon hexagon;
 
     public Hexagon(Point center, int radius) {
@@ -17,16 +15,24 @@ public class Hexagon {
     }
 
     private Polygon createHexagon() {
-        Polygon polygon = new Polygon();
+        Polygon p = new Polygon();
 
-        for (int i = 0; i < 6; i++) {
+      /*  for (int i = 0; i < 6; i++) {
             int xval = (int) (center.x + radius
                     * Math.cos(i * 2 * Math.PI / 6D));
             int yval = (int) (center.y + radius
                     * Math.sin(i * 2 * Math.PI / 6D));
             polygon.addPoint(xval, yval);
+        }*/
+      /*  for (int i = 0; i < 6; i++) {
+            p.addPoint((int) (50 + 50 * Math.sin(i * 2 * Math.PI / 6)),
+              (int) (100 + 50 * Math.cos(i * 2 * Math.PI / 6)));  
+        }*/
+        for (int i = 0; i < 6; i++) {
+            p.addPoint((int) (this.center.getX() + 50 * Math.sin(i * 2 * Math.PI / 6)),
+              (int) (100 + 50 * Math.cos(i * 2 * Math.PI / 6)));  
         }
-        return polygon;
+        return p;
     }
 
     public int getRadius() {

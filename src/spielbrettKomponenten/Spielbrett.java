@@ -7,9 +7,7 @@ import enums.*;
 import interfaces.*;
 
 public class Spielbrett
-implements interfaces.Spielbrett
-{
-	private static final long serialVersionUID = 1L;
+implements interfaces.Spielbrett{
 	private static Spielbrett instance = null;
 	private Vector<Feld> felder = null;
 

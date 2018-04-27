@@ -160,8 +160,7 @@ implements interfaces.Feld{
 			System.out.println("Feld id: " + this.id + " |  Kanten id: " + k.getId() +
 					" | ID of kante " + k.getErsteEcke().getId() + "  " + 
 					e.getId() +		
-					" | ausrichung: " + k.getAusrichtung());
-			
+					" | ausrichung: " + k.getAusrichtung());		
 		}		
 	}
 }
