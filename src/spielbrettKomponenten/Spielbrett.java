@@ -27,11 +27,7 @@ implements interfaces.Spielbrett{
 		/**
 		 * Create fields with corners and edges
 		 */
-		for(int i = 0; i < Konstanten.FELDER_AUF_SPIELBRETT; i++){	
-			Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];			
-			//Feld feld = new Feld(rohstoff,(r.nextInt(11)+1));			
-			//felder.addElement(feld);
-		}   
+		  
 		ersteReiheLegen(3);
 		zweiteReiheLegen(2);
 		
