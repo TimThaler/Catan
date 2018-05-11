@@ -1,5 +1,6 @@
 package spielbrettKomponenten;
 
+import java.awt.Point;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -7,6 +8,7 @@ import enums.*;
 import interfaces.Konstanten;
 
 public class Feld 
+extends userInterface.Hexagon
 implements interfaces.Feld{
 	private final Rohstoff rohstoff;
 	private final int wuerfelZahl;
@@ -20,7 +22,9 @@ implements interfaces.Feld{
 	private static int idZaehler = 0;
 
 	
-	public Feld(Rohstoff rohstoff, int wuerfelZahl) {
+	public Feld(Rohstoff rohstoff, int wuerfelZahl, Point point) {
+		//super(Point)
+		super(point);
 		this.rohstoff = rohstoff;
 		this.wuerfelZahl = wuerfelZahl;
 		this.id = idZaehler;

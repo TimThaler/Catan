@@ -1,6 +1,7 @@
 package spiel;
 
 import java.awt.Point;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -16,22 +17,29 @@ public class Spiel extends JFrame{
 	        super("CATAN");
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	        userInterface.Hexagon hexagon = new userInterface.Hexagon(new Point(100, 250), 200);
-	        userInterface.Hexagon hexagon2 = new userInterface.Hexagon(new Point(187, 250), 200);
+	        userInterface.Hexagon hexagon = new userInterface.Hexagon(new Point(10, 300), 30);
+	        userInterface.Hexagon hexagon2 = new userInterface.Hexagon(new Point(97, 300), 30);
 
-	        //drawingPanel = new userInterface.DrawingPanel(hexagon);
+	        Spielbrett spielbrett = Spielbrett.getInstance();
+	        drawingPanel = new userInterface.DrawingPanel(hexagon);
 	        drawingPanel = new userInterface.DrawingPanel();
-	        drawingPanel.addHexagon(hexagon);
-	        drawingPanel.addHexagon(hexagon2);
+	       // drawingPanel.addHexagon(hexagon);
+	        //drawingPanel.addHexagon(hexagon2);
+
 	        add(drawingPanel);
 
+	        Vector<Feld> felder = spielbrett.getFelder();
+	        
+	        for(int i = 0; i< felder.size(); i++) {
+	        	drawingPanel.addHexagon(felder.elementAt(i));
+	        }
 	        pack();
 	        setLocationByPlatform(true);
 	        setVisible(true);
 	 }
 	 
 	 public static void main(String[] args) {    
-		Spielbrett spielbrett = Spielbrett.getInstance();
+		
 		
 		/*JFrame frame = new JFrame("Catan");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

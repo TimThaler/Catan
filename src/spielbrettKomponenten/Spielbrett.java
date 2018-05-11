@@ -1,5 +1,6 @@
 package spielbrettKomponenten;
 
+import java.awt.Point;
 import java.util.Random;
 import java.util.Vector;
 
@@ -28,16 +29,19 @@ implements interfaces.Spielbrett{
 		 * Create fields with corners and edges
 		 */
 		  
-		ersteReiheLegen(3);
-		zweiteReiheLegen(2);
+		ersteReiheLegen(6);
+		//zweiteReiheLegen(2);
 		
 		Knoten.printKnotenMap();
 		System.out.println(felder.size());
 	}
 	
 	public void zweiteReiheLegen(int anzahl) {
-		Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];			
-		this.ersteFeldZweiteReihe = new Feld(rohstoff,(r.nextInt(11)+1));			
+		Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];	
+		
+		Point relPoint = ersteFeldErsteReihe.getCenter();
+		
+		this.ersteFeldZweiteReihe = null; //new Feld(rohstoff,(r.nextInt(11)+1));			
 		felder.addElement(this.ersteFeldZweiteReihe);
 		
 		/**
@@ -102,7 +106,7 @@ implements interfaces.Spielbrett{
 		for(int i = 0; i < anzahl -1; i++){
 			
 			rohstoff = Rohstoff.values()[(r.nextInt(5))];			
-			Feld aktuellesFeld = new Feld(rohstoff,(r.nextInt(11)+1));			
+			Feld aktuellesFeld = null;//new Feld(rohstoff,(r.nextInt(11)+1));			
 			felder.addElement(aktuellesFeld);
 			
 			/*wenn der nordost nachbar nicht da ist leg die kante nicht an und auch die knoten nicht
@@ -179,23 +183,18 @@ implements interfaces.Spielbrett{
 	}
 	
 	public void ersteReiheLegen(int anzahl) {
-		Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];			
-		this.ersteFeldErsteReihe = new Feld(rohstoff,(r.nextInt(11)+1));			
-		felder.addElement(this.ersteFeldErsteReihe);		 
+		Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];
+		Feld ersteFeld = new Feld(rohstoff,(r.nextInt(11)+1),new Point(100, 250));		
+		felder.addElement(ersteFeld);
+		this.ersteFeldErsteReihe = ersteFeld;
 		
-		for(int i = 1; i < anzahl; i++){	
-			rohstoff = Rohstoff.values()[(r.nextInt(5))];			
-			Feld feld = new Feld(rohstoff,(r.nextInt(11)+1));			
-			felder.addElement(feld);
-		} 
-		
-		Feld ersteFeld;
-		Feld zweiteFeld;
-				
 		for(int i = 0; i < anzahl -1; i++) {
 			ersteFeld = felder.get(i);
-			zweiteFeld = felder.get(i+1);
-
+			rohstoff = Rohstoff.values()[(r.nextInt(5))];
+			
+			Feld zweiteFeld = new Feld(rohstoff,(r.nextInt(11)+1),new Point((int) ersteFeld.getCenter().getX() + 87, 250));
+			felder.addElement(zweiteFeld);
+			
 			Kante kOstFeldEins = ersteFeld.getOstKante();
 			Kante kWestFeldZwei = zweiteFeld.getWestKante();
 			
@@ -219,5 +218,9 @@ implements interfaces.Spielbrett{
 				new Knoten(feld.getUnbesetzteEcke());
 			}
 		}
+	}
+
+	public Vector<Feld> getFelder() {
+		return felder;
 	}
 }
