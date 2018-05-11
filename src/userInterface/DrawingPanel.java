@@ -31,7 +31,7 @@ public class DrawingPanel extends JPanel{
      protected void paintComponent(Graphics g) {
          super.paintComponent(g);
 
-         g.setColor(Color.RED);
+         g.setColor(Color.BLACK);
          for (int i = 0; i <  hexagons.size(); i++) {
         	 System.out.println("dsfsdfsfdsdfsdf" + hexagons.get(i).getCenter());
         	 g.drawPolygon(hexagons.get(i).getHexagon());

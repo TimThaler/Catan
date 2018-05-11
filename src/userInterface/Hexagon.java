@@ -30,11 +30,6 @@ public class Hexagon {
                     * Math.cos(i * 2 * Math.PI / 6D));
             p.addPoint(xval, yval);
         }
-   
-       /* for (int i = 0; i < 6; i++) {
-            p.addPoint((int) (this.center.getX() + 50 * Math.sin(i * 2 * Math.PI / 6)),
-              (int) (100 + 50 * Math.cos(i * 2 * Math.PI / 6)));  
-        }*/
         return p;
     }
 
@@ -55,6 +50,11 @@ public class Hexagon {
     }
 }
 
+
+/* for (int i = 0; i < 6; i++) {
+p.addPoint((int) (this.center.getX() + 50 * Math.sin(i * 2 * Math.PI / 6)),
+  (int) (100 + 50 * Math.cos(i * 2 * Math.PI / 6)));  
+}*/
 
 /*
  *   for (int i = 0; i < 6; i++) {
