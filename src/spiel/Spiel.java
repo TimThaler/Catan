@@ -1,6 +1,7 @@
 package spiel;
 
 import java.awt.Point;
+import java.awt.geom.Line2D;
 import java.util.Vector;
 
 import javax.swing.JFrame;
@@ -15,19 +16,20 @@ public class Spiel extends JFrame{
 	 public Spiel() {
 		 /*hexagons two is not printed .....*/
 	        super("CATAN");
+	    
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+	        //  drawingPanel = new userInterface.DrawingPanel(hexagon);
+	        drawingPanel = new userInterface.DrawingPanel();
+	        add(drawingPanel);
+	        
+	        /*
+	        drawingPanel.addHexagon(hexagon);
+	        drawingPanel.addHexagon(hexagon2);
 	        userInterface.Hexagon hexagon = new userInterface.Hexagon(new Point(10, 300), 30);
 	        userInterface.Hexagon hexagon2 = new userInterface.Hexagon(new Point(97, 300), 30);
-
+	        */
 	        Spielbrett spielbrett = Spielbrett.getInstance();
-	        drawingPanel = new userInterface.DrawingPanel(hexagon);
-	        drawingPanel = new userInterface.DrawingPanel();
-	       // drawingPanel.addHexagon(hexagon);
-	        //drawingPanel.addHexagon(hexagon2);
-
-	        add(drawingPanel);
-
 	        Vector<Feld> felder = spielbrett.getFelder();
 	        
 	        for(int i = 0; i< felder.size(); i++) {
@@ -38,8 +40,8 @@ public class Spiel extends JFrame{
 	        setVisible(true);
 	 }
 	 
-	 public static void main(String[] args) {    
-		
+	 public static void main(String[] args) {
+		 
 		
 		/*JFrame frame = new JFrame("Catan");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +57,8 @@ public class Spiel extends JFrame{
 	            public void run() {
 	                new Spiel();
 	            }
-	        });
+		 }
+		 );
 	}
 }
 
