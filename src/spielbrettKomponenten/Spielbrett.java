@@ -30,7 +30,7 @@ implements interfaces.Spielbrett{
 		 */
 		  
 		ersteReiheLegen(6);
-		//zweiteReiheLegen(2);
+		zweiteReiheLegen(2);
 		
 		Knoten.printKnotenMap();
 		System.out.println(felder.size());
@@ -40,8 +40,10 @@ implements interfaces.Spielbrett{
 		Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];	
 		
 		Point relPoint = ersteFeldErsteReihe.getCenter();
-		
-		this.ersteFeldZweiteReihe = null; //new Feld(rohstoff,(r.nextInt(11)+1));			
+		//relPoint.y = 325;
+		relPoint.y = (int) (relPoint.y * 1.3);
+		relPoint.x = 143;
+		this.ersteFeldZweiteReihe = new Feld(rohstoff,(r.nextInt(11)+1),relPoint);			
 		felder.addElement(this.ersteFeldZweiteReihe);
 		
 		/**
@@ -105,8 +107,9 @@ implements interfaces.Spielbrett{
 
 		for(int i = 0; i < anzahl -1; i++){
 			
-			rohstoff = Rohstoff.values()[(r.nextInt(5))];			
-			Feld aktuellesFeld = null;//new Feld(rohstoff,(r.nextInt(11)+1));			
+			rohstoff = Rohstoff.values()[(r.nextInt(5))];
+			Point newPoint = new Point((int) vorgaengerLinks.getCenter().getX() + 87, (int) vorgaengerLinks.getCenter().getY());
+			Feld aktuellesFeld = new Feld(rohstoff,(r.nextInt(11)+1),newPoint);			
 			felder.addElement(aktuellesFeld);
 			
 			/*wenn der nordost nachbar nicht da ist leg die kante nicht an und auch die knoten nicht

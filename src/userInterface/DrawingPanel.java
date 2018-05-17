@@ -8,12 +8,12 @@ public class DrawingPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 
-	 private Hexagon hexagon;
+	// private Hexagon hexagon;
 	 private ArrayList<Hexagon> hexagons = new ArrayList<Hexagon>();
 	 
      public DrawingPanel(Hexagon hexagon) {
     	 System.out.println("radus of hex: " +hexagon.getRadius());
-         this.hexagon = hexagon;
+         //this.hexagon = hexagon;
          this.setPreferredSize(new Dimension(500, 500));
      }
      
