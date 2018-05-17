@@ -30,7 +30,7 @@ implements interfaces.Spielbrett{
 		 */
 		  
 		ersteReiheLegen(6);
-		zweiteReiheLegen(2);
+		zweiteReiheLegen(3);
 		
 		Knoten.printKnotenMap();
 		System.out.println(felder.size());
@@ -118,11 +118,11 @@ implements interfaces.Spielbrett{
 			Feld vorgaengerObenLinks = vorgaengerLinks.getnordOstKante().getNachbarKante().getFeld();
 			Kante vorgaengerOstKante = vorgaengerLinks.getOstKante();
 			Kante vorgaengerSuedOstKante = vorgaengerObenLinks.getsuedOstKante();
+			
 			aktuellesFeld.getWestKante().setNachbarKante(vorgaengerOstKante);
-			aktuellesFeld.getnordWestKante().setNachbarKante(vorgaengerSuedOstKante);
-			
+			aktuellesFeld.getnordWestKante().setNachbarKante(vorgaengerSuedOstKante);		
 			vorgaengerOstKante.setNachbarKante(aktuellesFeld.getWestKante());
-			
+			vorgaengerSuedOstKante.setNachbarKante(aktuellesFeld.getnordWestKante());
 			
 			/**
 			 * Corners from current field to connect
@@ -152,7 +152,7 @@ implements interfaces.Spielbrett{
 			e1.setKnoten(k1);
 			e2.setKnoten(k2);
 			e3.setKnoten(k3);
-			
+			//ERROR k1 has no free corner?!?!
 			k1.setFreieEcke(e1);
 			k2.setFreieEcke(e2);
 			k3.setFreieEcke(e3);
