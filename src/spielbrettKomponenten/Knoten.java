@@ -10,35 +10,35 @@ import interfaces.Konstanten;
 public class Knoten
 implements interfaces.Knoten{
 	
-	private static Vector<Knoten> knotenMap = new Vector<Knoten>();
-	private static int idZaehler = 0;
+	private static Vector<Knoten> nodeMap = new Vector<Knoten>();
+	private static int idCounter = 0;
 
-	private final Ecke ecke1;
-	private Ecke ecke2;
-	private Ecke ecke3;
+	private final Ecke corner1;
+	private Ecke corner2;
+	private Ecke corner3;
 	private int id;
 	
 	public Knoten(Ecke ecke1, Ecke ecke2) {
-		this.ecke1 = ecke1;
-		this.ecke2 = ecke2;
+		this.corner1 = ecke1;
+		this.corner2 = ecke2;
 		// hidden in the constructor the corner sets the edge's node .... 
-		this.ecke1.setKnoten(this);
-		this.ecke2.setKnoten(this);
-		knotenMap.addElement(this);	
+		this.corner1.setKnoten(this);
+		this.corner2.setKnoten(this);
+		nodeMap.addElement(this);	
 
 		
-		this.id=idZaehler;
-		idZaehler++;
+		this.id=idCounter;
+		idCounter++;
 	}
 	
 	public Knoten(Ecke e) {
-		this.ecke1 = e;
+		this.corner1 = e;
 		// hidden in the constructor the corner sets the edge's node .... 
-		this.ecke1.setKnoten(this);
-		knotenMap.addElement(this);	
+		this.corner1.setKnoten(this);
+		nodeMap.addElement(this);	
 		
-		this.id=idZaehler;
-		idZaehler++;
+		this.id=idCounter;
+		idCounter++;
 	}
 	
 	public int getId() {
@@ -49,17 +49,17 @@ implements interfaces.Knoten{
 		//call this method hier seems to be an awkward place
 		//but i forgot myself often
 		try {
-			if(this.ecke2 != null && this.ecke3 != null) {
+			if(this.corner2 != null && this.corner3 != null) {
 				String eString = "\n Node " + this.id + " has no free corners";
 				eString += "\n Trying to add corner: " + ecke.getId() + " from field: " + ecke.getFeld().getId();
 				throw new Exception(eString);
 			}
-			if(this.ecke2 == null) {
-				this.ecke2 = ecke;
-				this.ecke2.setKnoten(this);
-			}else if(this.ecke3 == null) {
-				this.ecke3 = ecke;
-				this.ecke3.setKnoten(this);
+			if(this.corner2 == null) {
+				this.corner2 = ecke;
+				this.corner2.setKnoten(this);
+			}else if(this.corner3 == null) {
+				this.corner3 = ecke;
+				this.corner3.setKnoten(this);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -69,16 +69,16 @@ implements interfaces.Knoten{
 	}
 	
 	public static void printKnotenMap() {
-		for(Knoten k : Knoten.knotenMap) {
+		for(Knoten k : Knoten.nodeMap) {
 			System.out.print(k.getId() + " kID |");
-			if(k.ecke1 != null) {
-				System.out.print("Feld id "+ k.ecke1.getFeld().getId() + " |" + k.ecke1.getId() + "e1 |");
+			if(k.corner1 != null) {
+				System.out.print("Feld id "+ k.corner1.getFeld().getId() + " |" + k.corner1.getId() + "e1 |");
 			}
-			if(k.ecke2 != null) {
-				System.out.print("Feld id "+ k.ecke2.getFeld().getId() + " |" + k.ecke2.getId() + "e2 |");
+			if(k.corner2 != null) {
+				System.out.print("Feld id "+ k.corner2.getFeld().getId() + " |" + k.corner2.getId() + "e2 |");
 			}
-			if(k.ecke3 != null) {
-				System.out.print("Feld id "+ k.ecke3.getFeld().getId() + " |" + k.ecke3.getId() + "e3 |");
+			if(k.corner3 != null) {
+				System.out.print("Feld id "+ k.corner3.getFeld().getId() + " |" + k.corner3.getId() + "e3 |");
 			}
 			System.out.println();
 		}
