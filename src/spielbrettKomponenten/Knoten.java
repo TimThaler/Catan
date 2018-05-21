@@ -48,7 +48,18 @@ implements interfaces.Knoten{
 	public void setFreieEcke(Ecke ecke) {
 		//call this method hier seems to be an awkward place
 		//but i forgot myself often
-		System.out.println("Knoten " + this.getId());
+		try {
+		if(this.ecke2 == null && this.ecke3 == null) {
+			String eString = "\n Node " + this.id + " has no free corners";
+			eString += "\n Trying to add corner: " + ecke.getId() + " from field: " + ecke.getFeld().getId();
+			throw new Exception(eString);
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+ ": " +e.getMessage());
+			System.exit(-1);
+		}
+		/*System.out.println("Knoten " + this.getId());
 		if(this.ecke2 == null) {
 			this.ecke2 = ecke;
 			this.ecke2.setKnoten(this);
@@ -60,7 +71,7 @@ implements interfaces.Knoten{
 		}else {
 			//throw Exception e
 			System.out.println("ERROR setfreieecke to knoten");
-		}
+		}*/
 	}
 	
 	public static void printKnotenMap() {
