@@ -1,4 +1,4 @@
-package userInterface;
+package shapes;
 
 import java.awt.Point;
 import java.awt.Polygon;

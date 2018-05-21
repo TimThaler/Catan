@@ -2,7 +2,11 @@ package userInterface;
 
 import java.util.ArrayList;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+
 import javax.swing.*;
+
+import shapes.Hexagon;
 
 public class DrawingPanel extends JPanel{
 
@@ -29,12 +33,16 @@ public class DrawingPanel extends JPanel{
 
      @Override
      protected void paintComponent(Graphics g) {
+    	 Graphics2D g2 = (Graphics2D) g;
          super.paintComponent(g);
 
          g.setColor(Color.BLACK);
          for (int i = 0; i <  hexagons.size(); i++) {
-        	 System.out.println("dsfsdfsfdsdfsdf" + hexagons.get(i).getCenter());
         	 g.drawPolygon(hexagons.get(i).getHexagon());
+        	 double x = (double) (hexagons.get(i).getCenter().getX() - (double) hexagons.get(i).getRadius()/1.5);
+        	 double y = (double) (hexagons.get(i).getCenter().getY() - (double) hexagons.get(i).getRadius()/1.5);
+        	 Shape circle = new Ellipse2D.Double(x ,y, 35, 35);
+        	 g2.draw(circle);
 		}
        // g.drawPolygon(hexagon.getHexagon());
      }

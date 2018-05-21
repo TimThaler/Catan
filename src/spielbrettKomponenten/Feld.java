@@ -8,7 +8,7 @@ import enums.*;
 import interfaces.Konstanten;
 
 public class Feld 
-extends userInterface.Hexagon
+extends shapes.Hexagon
 implements interfaces.Feld{
 	private final Rohstoff rohstoff;
 	private final int wuerfelZahl;
