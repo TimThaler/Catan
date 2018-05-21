@@ -213,8 +213,14 @@ implements interfaces.Spielbrett{
 			
 			ersteFeld.getOstKante().setupSymmetricNeighbourRelation(zweiteFeld.getWestKante());
 			
-			Ecke e1 = ersteFeld.getOstKante().getErsteEcke();
-			Ecke e2 = zweiteFeld.getWestKante().getErsteEcke();		
+			Ecke e1 = ersteFeld.getGemeinsameEcke(
+					ersteFeld.getnordOstKante(),
+					ersteFeld.getOstKante()
+					);
+			Ecke e2 = zweiteFeld.getGemeinsameEcke(
+					zweiteFeld.getnordWestKante(),
+					zweiteFeld.getWestKante()
+					);
 			Ecke e11 = ersteFeld.getOstKante().getNachbarEcke(e1);
 			Ecke e22 = zweiteFeld.getWestKante().getNachbarEcke(e2);
 			

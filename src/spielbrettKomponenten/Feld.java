@@ -17,7 +17,6 @@ implements interfaces.Feld{
 	private Vector<Kante> kanten = new Vector<Kante>();
 
 	private static int idCounter = 0;
-
 	
 	public Feld(Rohstoff rohstoff, int wuerfelZahl, Point point) {
 		//super(Point)
@@ -95,7 +94,7 @@ implements interfaces.Feld{
 			}
 			
 			if(e == null) {
-				throw new Exception("The edges with id: " + k1.getId() + " and " + k2.getId() + "do not share commen corner");
+				throw new Exception("The edges with id: " + k1.getId() + ", " + k2.getId() + " do not share commen corner");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
