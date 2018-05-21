@@ -49,29 +49,23 @@ implements interfaces.Knoten{
 		//call this method hier seems to be an awkward place
 		//but i forgot myself often
 		try {
-		if(this.ecke2 == null && this.ecke3 == null) {
-			String eString = "\n Node " + this.id + " has no free corners";
-			eString += "\n Trying to add corner: " + ecke.getId() + " from field: " + ecke.getFeld().getId();
-			throw new Exception(eString);
-		}
+			if(this.ecke2 != null && this.ecke3 != null) {
+				String eString = "\n Node " + this.id + " has no free corners";
+				eString += "\n Trying to add corner: " + ecke.getId() + " from field: " + ecke.getFeld().getId();
+				throw new Exception(eString);
+			}
+			if(this.ecke2 == null) {
+				this.ecke2 = ecke;
+				this.ecke2.setKnoten(this);
+			}else if(this.ecke3 == null) {
+				this.ecke3 = ecke;
+				this.ecke3.setKnoten(this);
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
-			System.err.println(e.getClass().getName()+ ": " +e.getMessage());
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(-1);
 		}
-		/*System.out.println("Knoten " + this.getId());
-		if(this.ecke2 == null) {
-			this.ecke2 = ecke;
-			this.ecke2.setKnoten(this);
-			System.out.println("sdfe");
-		}else if(this.ecke3 == null) {
-			this.ecke3 = ecke;
-			this.ecke3.setKnoten(this);
-			System.out.println("sdf");
-		}else {
-			//throw Exception e
-			System.out.println("ERROR setfreieecke to knoten");
-		}*/
 	}
 	
 	public static void printKnotenMap() {
