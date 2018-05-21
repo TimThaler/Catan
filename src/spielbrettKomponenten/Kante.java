@@ -67,8 +67,31 @@ implements interfaces.Kante{
 		return nachbarKante;
 	}
 
-	public void setNachbarKante(Kante nachbarKante) {
-		this.nachbarKante = nachbarKante;
+	private void setupNeighbourEdge(Kante k) {
+		try {
+			if(this.nachbarKante != null) {
+				throw new Exception("Edge with id: " + this.id + "already has a neighbour");
+			}
+			this.nachbarKante = k;
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(-1);
+		}
+	}
+	
+	public void setupSymmetricNeighbourRelation(Kante k) {
+		try {
+			if (this.nachbarKante != null) {
+				throw new Exception("Edge with id: " + this.id + "already has a neighbour");
+			}	
+			this.nachbarKante = k;
+			k.setupNeighbourEdge(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(-1);
+		}
 	}
 	
 	public Feld getFeld() {

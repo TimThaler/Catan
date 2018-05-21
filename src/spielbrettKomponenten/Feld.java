@@ -81,6 +81,17 @@ implements interfaces.Feld{
 		}
 		return null;
 	}
+	
+	public int anzUnbesetzterEcken() {
+		int counter = 0;
+		for(Ecke e :ecken) {
+			if(e.getKnoten() == null) {
+				counter++;
+			}
+		}
+		return counter;
+			
+	}
 
 	public Vector<Kante> getKanten() {
 		return kanten;

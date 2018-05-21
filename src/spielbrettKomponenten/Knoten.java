@@ -20,25 +20,17 @@ implements interfaces.Knoten{
 	
 	public Knoten(Ecke ecke1, Ecke ecke2) {
 		this.corner1 = ecke1;
-		this.corner2 = ecke2;
-		// hidden in the constructor the corner sets the edge's node .... 
-		this.corner1.setKnoten(this);
-		this.corner2.setKnoten(this);
-		nodeMap.addElement(this);	
-
-		
+		this.corner2 = ecke2;			
 		this.id=idCounter;
 		idCounter++;
+		nodeMap.addElement(this);
 	}
 	
 	public Knoten(Ecke e) {
-		this.corner1 = e;
-		// hidden in the constructor the corner sets the edge's node .... 
-		this.corner1.setKnoten(this);
-		nodeMap.addElement(this);	
-		
+		this.corner1 = e;	
 		this.id=idCounter;
 		idCounter++;
+		nodeMap.addElement(this);
 	}
 	
 	public int getId() {
@@ -55,8 +47,14 @@ implements interfaces.Knoten{
 				throw new Exception(eString);
 			}
 			if(this.corner2 == null) {
+				if(this.corner1.getId() == ecke.getId()) {
+					throw new Exception("Ecke: "+ ecke.getId() + "already connected to node");
+				}
 				this.corner2 = ecke;
 			}else if(this.corner3 == null) {
+				if(this.corner1.getId() == ecke.getId() || this.corner2.getId() == ecke.getId() ) {
+					throw new Exception("Ecke: "+ ecke.getId() + " already connected to node " + this.id);
+				}
 				this.corner3 = ecke;
 			}
 		}catch (Exception e) {
