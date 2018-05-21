@@ -38,8 +38,8 @@ implements interfaces.Ecke{
 
 	public void setKnoten(Knoten knoten) {
 		try {
-			if (this.knoten !=null) {
-				throw new Exception(this.id + " Ecke has already node assigned");
+			if (this.knoten != null) {
+				throw new Exception(this.id + " Ecke has already the node with id: " + this.knoten.getId() + "  assigned");
 			}
 			this.knoten = knoten;
 		} catch (Exception e) {

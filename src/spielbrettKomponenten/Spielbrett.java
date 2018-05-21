@@ -48,14 +48,13 @@ implements interfaces.Spielbrett{
 		
 		/**
 		 * get information about first two fields from the first row 
-		 * with their two edges we are able to place the first field
+		 * with their two edges (southEast and southWest) we are able to place the first field
 		 */
 		 
 		Feld nwNeighborField = this.ersteFeldErsteReihe;
 		Feld neNeighborField = nwNeighborField.getOstKante().getNachbarKante().getFeld();
 
-		/*find common node and connect it to north corner of current field*/
-		Knoten gemeinsamerKonten = null;
+		
 
 		Ecke nwNeighborSECorner = nwNeighborField.getGemeinsameEcke(
 				nwNeighborField.getsuedOstKante(),
@@ -65,16 +64,22 @@ implements interfaces.Spielbrett{
 				neNeighborField.getsuedWestKante(),
 				neNeighborField.getWestKante());
 		
-		if (nwNeighborSECorner.getKnoten().getId() != neNeighborSWCorner.getKnoten().getId()) {
-			System.out.println("Error nodes do not match");
-		} else {
-			gemeinsamerKonten = nwNeighborSECorner.getKnoten();
+		try {
+			if (nwNeighborSECorner.getKnoten().getId() != neNeighborSWCorner.getKnoten().getId()) {
+				throw new Exception("Error nodes do not match");
+			}	
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(-1);
 		}
+		/*find common node and connect it to north corner of current field*/
 		
+		Knoten gemeinsamerKonten = nwNeighborSECorner.getKnoten();
 		Ecke currentFieldNCorner = this.ersteFeldZweiteReihe.getGemeinsameEcke(
 				this.ersteFeldZweiteReihe.getnordOstKante(),
 				this.ersteFeldZweiteReihe.getnordWestKante());
-		
+
 		gemeinsamerKonten.setFreieEcke(currentFieldNCorner);
 		currentFieldNCorner.setKnoten(gemeinsamerKonten);
 		/*DONE*/
@@ -82,19 +87,15 @@ implements interfaces.Spielbrett{
 		/*connect left and right corners of current field to nodes left and right of the common node*/
 		Ecke currentFieldNWCorner = this.ersteFeldZweiteReihe.getnordWestKante().getNachbarEcke(currentFieldNCorner);
 		Ecke currentFieldNOCorner = this.ersteFeldZweiteReihe.getnordOstKante().getNachbarEcke(currentFieldNCorner);
-		
-		
+				
 		Knoten nwKnoten = nwNeighborField.getsuedOstKante().getNachbarEcke(nwNeighborSECorner).getKnoten();
 		Knoten noKnoten = neNeighborField.getsuedWestKante().getNachbarEcke(neNeighborSWCorner).getKnoten();
 		
-		
-		/**
-		 * corners gets hidden in set free node function assigned to node -.-
-		 */
-		//gemeinsameEcke.setKnoten(gemeinsamerKonten);		
 		noKnoten.setFreieEcke(currentFieldNOCorner);		
 		nwKnoten.setFreieEcke(currentFieldNWCorner);
-
+		currentFieldNOCorner.setKnoten(noKnoten);
+		currentFieldNWCorner.setKnoten(nwKnoten);
+		
 		this.ersteFeldZweiteReihe.getnordWestKante().setNachbarKante(nwNeighborField.getsuedOstKante());
 		this.ersteFeldZweiteReihe.getnordOstKante().setNachbarKante(neNeighborField.getsuedWestKante());
 		
@@ -167,8 +168,8 @@ implements interfaces.Spielbrett{
 				
 				Ecke e4 = aktuellesFeld.getnordOstKante().getNachbarEcke(e3);
 				Knoten k4 = vorgaengerObenRechts.
-						getGemeinsameEcke(vorgaengerObenLinks.getsuedOstKante(), 
-								vorgaengerObenLinks.getOstKante()).
+						getGemeinsameEcke(vorgaengerObenRechts.getsuedOstKante(), 
+								vorgaengerObenRechts.getsuedWestKante()).
 						getKnoten();
 				
 				e4.setKnoten(k4);
