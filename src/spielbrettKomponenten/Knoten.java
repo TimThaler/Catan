@@ -56,10 +56,8 @@ implements interfaces.Knoten{
 			}
 			if(this.corner2 == null) {
 				this.corner2 = ecke;
-				this.corner2.setKnoten(this);
 			}else if(this.corner3 == null) {
 				this.corner3 = ecke;
-				this.corner3.setKnoten(this);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
