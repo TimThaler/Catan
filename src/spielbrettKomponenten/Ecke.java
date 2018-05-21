@@ -37,11 +37,16 @@ implements interfaces.Ecke{
 	}
 
 	public void setKnoten(Knoten knoten) {
-		if (this.knoten !=null) {
-			System.out.println(this.id + " Ecke has already node assigned");
-		} else {
+		try {
+			if (this.knoten !=null) {
+				throw new Exception(this.id + " Ecke has already node assigned");
+			}
 			this.knoten = knoten;
-		}	
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(-1);
+		}
 	}
 	
 	
