@@ -16,10 +16,7 @@ implements interfaces.Feld{
 	private Vector<Ecke> ecken = new Vector<Ecke>();
 	private Vector<Kante> kanten = new Vector<Kante>();
 
-	private boolean istPlaziert = false;
-
-	
-	private static int idZaehler = 0;
+	private static int idCounter = 0;
 
 	
 	public Feld(Rohstoff rohstoff, int wuerfelZahl, Point point) {
@@ -27,8 +24,8 @@ implements interfaces.Feld{
 		super(point);
 		this.rohstoff = rohstoff;
 		this.wuerfelZahl = wuerfelZahl;
-		this.id = idZaehler;
-		idZaehler++;		
+		this.id = idCounter;
+		idCounter++;		
 		
 		//Create corners for field
 		for(int x = 0; x < Konstanten.ECKEN_PRO_FELD; x++){
@@ -59,18 +56,6 @@ implements interfaces.Feld{
 	public int getId() {
 		return id;
 	}
-
-	public void setIstPlaziert(boolean istGesetzt) {
-		this.istPlaziert = istGesetzt;
-	}
-	
-	public void printEckenId() {
-		System.out.println("eckenids or feld");
-		for (Iterator iterator = ecken.iterator(); iterator.hasNext();) {
-			Ecke ecke = (Ecke) iterator.next();
-			System.out.println(ecke.getId());
-		}
-	}
 	
 	@Override
 	public Ecke getUnbesetzteEcke() {
@@ -89,8 +74,7 @@ implements interfaces.Feld{
 				counter++;
 			}
 		}
-		return counter;
-			
+		return counter;	
 	}
 
 	public Vector<Kante> getKanten() {
@@ -99,18 +83,24 @@ implements interfaces.Feld{
 	
 	public Ecke getGemeinsameEcke(Kante k1, Kante k2) {
 		Ecke e = null;
-		if (k1.getErsteEcke().getId() == k2.getErsteEcke().getId()){
-			e = k1.getErsteEcke();
-		} else if (k1.getZweiteEcke().getId() == k2.getErsteEcke().getId()) {
-			e = k1.getZweiteEcke();
-		} else if (k1.getErsteEcke().getId() == k2.getZweiteEcke().getId()){
-			e = k1.getErsteEcke();
-		} else if (k1.getZweiteEcke().getId() == k2.getZweiteEcke().getId()){
-			e = k1.getZweiteEcke();
-		}
-		
-		if(e == null) {
-			//throw exception
+		try {
+			if (k1.getErsteEcke().getId() == k2.getErsteEcke().getId()){
+				e = k1.getErsteEcke();
+			} else if (k1.getZweiteEcke().getId() == k2.getErsteEcke().getId()) {
+				e = k1.getZweiteEcke();
+			} else if (k1.getErsteEcke().getId() == k2.getZweiteEcke().getId()){
+				e = k1.getErsteEcke();
+			} else if (k1.getZweiteEcke().getId() == k2.getZweiteEcke().getId()){
+				e = k1.getZweiteEcke();
+			}
+			
+			if(e == null) {
+				throw new Exception("The edges with id: " + k1.getId() + " and " + k2.getId() + "do not share commen corner");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
+			System.exit(-1);
 		}
 		return e;
 	}
@@ -160,12 +150,22 @@ implements interfaces.Feld{
 		return null;
 	}
 	public Kante getWestKante() {
-		for(Kante k : kanten) {
-			if(k.getAusrichtung() == Ausrichtung.west) {
-				return k;
+		Kante retKante = null;
+		try {
+			for(Kante k : kanten) {
+				if(k.getAusrichtung() == Ausrichtung.west) {
+					retKante = k;
+				}
 			}
+			if (retKante == null) {
+				throw new Exception("Ausrichtung WEST is not present in Feld with id: " + this.id);
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(-1);
 		}
-		return null;
+		return retKante;
 	}
 	
 	public void printFeldInfo() {
